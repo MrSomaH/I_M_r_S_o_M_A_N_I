@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 while True:
-    print("1 = F1 = 2X**2 = 4Y**2,\n2 = F2 = X**2 + 2Y**2 - Z")
+    print("1 = F1 = 2X**2 = 4Y**2,\n2 = F2 = X**2 + 2Y**2 - Z\n0 = stop")
     
     task = int(input('Ведіть номер завдання: 1 or 2: '))
     if task == 1:   
@@ -73,48 +73,41 @@ while True:
        # обчислення значень функції на сітці
         F2 = X**2 + 2*Y**2 - Z  
 
-        # візуалізація скалярного поля за допомогою функції contourf
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
-        ax.contourf(X, Y, F2, cmap='viridis')
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.set_zlabel('z')
+        # візуалізація скалярного поля за допомогою функції slice
+        plt.figure(figsize=(6, 6))
+        plt.contourf(X[:, :, 50], Y[:, :, 50], F2[:, :, 50], cmap='viridis')
+        plt.colorbar()
+        plt.xlabel('x')
+        plt.ylabel('y')
         plt.show()
 
         # зображення ліній рівня за допомогою функції contour
-        levels = [-12, -9, -6, -3, 0, 3, 6, 9, 12]
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
-        ax.contour(X, Y, F2, levels=levels, colors='purple')
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.set_zlabel('z')
+        plt.figure(figsize=(6, 6))
+        plt.contour(X[:, :, 50], Y[:, :, 50], F2[:, :, 50], levels=[-2, 0, 2, 4, 6, 8], colors='black')
+        plt.xlabel('x')
+        plt.ylabel('y')
         plt.show()
 
-        # обчислення градієнту
+        # обчислення градієнту. Використаємо функцію 'gradient' з пакету NumPy
         Fx, Fy, Fz = np.gradient(F2)
 
         # зображення векторного поля градієнта
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
-        ax.quiver(X, Y, Z, Fx, Fy, Fz, length=0.3, color='green', normalize=True)
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.set_zlabel('z')
+        plt.figure(figsize=(6, 6))
+        plt.quiver(X[:, :, 50], Y[:, :, 50], Fx[:, :, 50], Fy[:, :, 50], color='green')
+        plt.xlabel('x')
+        plt.ylabel('y')
         plt.show()
 
         # координати точки та вектора напрямку вводяться користувачем
-        x0 = float(input('Введіть x-координату точки: '))
-        y0 = float(input('Введіть y-координату точки: '))
-        z0 = float(input('Введіть z-координату точки: '))
-        t1 = float(input('Введіть x-компоненту вектора напрямку: '))
-        t2 = float(input('Введіть y-компоненту вектора напрямку: '))
-        t3 = float(input('Введіть z-компоненту вектора напрямку: '))
-
+        x0 = float(input('Введіть х - координату: '))
+        y0 = float(input('Введіть y - координату: '))
+        z0 = float(input('Введіть z - координату: '))
+        t1 = float(input('Введіть х - компоненту вектора напрямку: '))
+        t2 = float(input('Введіть y - компоненту вектора напрямку: '))
+        t3 = float(input('Введіть z - компоненту вектора напрямку: '))
 
         # обчислення значення градієнту в точці (x0, y0, z0)
-        grad_F = np.array([2 * x0, 4 * y0, -1])
+        grad_F = np.array([2*x0, 4*y0, -1])
 
         # обчислення значення похідної за напрямом вектора (t1, t2, t3) в точці (x0, y0, z0)
         t = np.array([t1, t2, t3])
@@ -122,6 +115,9 @@ while True:
 
         # виведення результату
         print('Похідна в напрямку вектора ({}, {}, {}) у точці ({}, {}, {}) дорівнює {}'.format(t1, t2, t3, x0, y0, z0, dF_dt))
+    
+    elif task ==0:
+        break
 
 
 
