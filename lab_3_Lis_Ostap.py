@@ -118,10 +118,3 @@ while True:
     
     elif task ==0:
         break
-
-
-
-
-
-
-
