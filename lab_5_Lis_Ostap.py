@@ -3,63 +3,127 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 
-# Задання вектор-функції
+# Задана вектор-функція
 def vector_function(t):
     x = np.sin(t)
     y = np.cos(t)
     z = t
-    return np.array([x, y, z])
+    return x, y, z
 
-# Створення інтервалу аргументу
-t = np.arange(0, 10, .1)
+# Заданий інтервал аргументу
+t_min = 0
+t_max = 10
+num_points = 100
 
-# Створення тривимірної фігури
+# Генерація значень аргументу
+t_values = np.linspace(t_min, t_max, num_points)
+
+# Генерація векторів у кожному моменті часу
+x_values, y_values, z_values = vector_function(t_values)
+
+# Побудова годографу
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
+ax.plot(x_values, y_values, z_values, 'b-', label='Годограф')
 
-# Побудова годографа
-for i in range(len(t)):
-    vector = vector_function(t[i])
-    ax.plot([0, vector[0]], [0, vector[1]], [0, vector[2]], color='b')
-    ax.scatter(vector[0], vector[1], vector[2], color='r')
-    plt.pause(0.1)
+# Додавання векторів у конкретні моменти часу
+arrow_length = (t_max - t_min) / num_points
+for i in range(num_points):
+    ax.quiver(x_values[i], y_values[i], z_values[i], x_values[i], y_values[i], z_values[i],
+              length=arrow_length, normalize=True, color='r')
 
+# Налаштування відображення графіка
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('Годограф вектор-функції')
+ax.legend()
+
+# Відображення графіка
 plt.show()
 
+# Задане скалярне поле
+def scalar_field(x, y):
+    return np.sin(x) + np.cos(y)
 
-# Задання скалярного поля
-def scalar_field(x, y, t):
-    return np.sin(x + t) + np.cos(y)
+# Задані межі координат
+x_min, x_max = -5, 5
+y_min, y_max = -5, 5
 
-# Створення масивів значень x та y
-x = np.linspace(-5, 5, 100)
-y = np.linspace(-5, 5, 100)
+# Задані значення константи рівня
+num_levels = 10
+level_values = np.linspace(-2, 2, num_levels)
 
-# Створення сітки з масивів x та y
-X, Y = np.meshgrid(x, y)
+# Генерація координатної сітки
+num_points = 100
+x_values = np.linspace(x_min, x_max, num_points)
+y_values = np.linspace(y_min, y_max, num_points)
+X, Y = np.meshgrid(x_values, y_values)
 
-# Створення фігури та підготовка пустого графіка
-fig = plt.figure()
-ax = fig.add_subplot(111)
+# Побудова анімації ліній рівня
+fig, ax = plt.subplots()
 
-# Функція, яка викликається на кожному кроці анімації
-def update_plot(t):
-    ax.clear()
-    ax.set_xlim(-5, 5)
-    ax.set_ylim(-5, 5)
+def update_plot(frame):
+    ax.cla()
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+    ax.set_title(f'Лінії рівня для C = {level_values[frame]:.2f}')
+    ax.contour(X, Y, scalar_field(X, Y), levels=[level_values[frame]], colors='b')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+
+animation = FuncAnimation(fig, update_plot, frames=num_levels, interval=500, repeat=True)
+
+# Відображення анімації
+plt.show()
+# Задане двовимірне векторне поле сил
+def force_field(x, y):
+    return np.array([-y, x])  # Приклад поля сил: F = (-y, x)
+
+# Початкові значення
+initial_position = np.array([1.0, 0.0])  # Початкова позиція (x, y)
+initial_velocity = np.array([0.0, 1.0])  # Початкова швидкість (Vx, Vy)
+mass = 1.0  # Маса тіла
+
+# Крок інтегрування
+dt = 0.01
+
+# Кількість кадрів анімації
+num_frames = 1000
+
+# Розрахунок траекторії руху тіла
+trajectory = np.zeros((num_frames, 2))
+position = initial_position
+velocity = initial_velocity
+
+for i in range(num_frames):
+    # Розрахунок прискорення за другим законом Ньютона: F = ma
+    acceleration = force_field(position[0], position[1]) / mass
     
-    # Знаходження значення скалярного поля для кожної точки на сітці
-    Z = scalar_field(X, Y, t)
+    # Оновлення позиції тіла
+    position += velocity * dt
     
-    # Створення ліній рівня та їх побудова на графіку
-    levels = np.linspace(-2, 2, 10)
-    CS = ax.contour(X, Y, Z, levels=levels, cmap='rainbow')
+    # Оновлення швидкості тіла
+    velocity += acceleration * dt
     
-    # Додавання підписів до ліній рівня
-    ax.clabel(CS, inline=1, fontsize=10)
+    # Збереження позиції у траекторію
+    trajectory[i] = position
 
-# Створення анімації
-ani = FuncAnimation(fig, update_plot, frames=np.linspace(0, 2*np.pi, 50), interval=100)
+# Побудова анімації руху тіла
+fig, ax = plt.subplots()
+ax.set_xlim(np.min(trajectory[:, 0]) - 1, np.max(trajectory[:, 0]) + 1)
+ax.set_ylim(np.min(trajectory[:, 1]) - 1, np.max(trajectory[:, 1]) + 1)
+ax.set_aspect('equal')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
 
-# Показ анімації
+line, = ax.plot([], [], 'b-', lw=2)
+
+def update_plot(frame):
+    line.set_data(trajectory[:frame+1, 0], trajectory[:frame+1, 1])
+    return line,
+
+animation = FuncAnimation(fig, update_plot, frames=num_frames, interval=10, blit=True)
+
+# Відображення анімації
 plt.show()
