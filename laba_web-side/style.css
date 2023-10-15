@@ -39,6 +39,14 @@ body {
   line-height: 24px;
   margin-bottom: 25px;
 }
+/* project */
+.title{
+  color: #000;
+  font-size: 27px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
 
 .sidebar{
   color: white;
@@ -46,3 +54,5 @@ body {
   width: 370px;
   padding-top: 40px;
 }
+
+.
