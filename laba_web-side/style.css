@@ -6,7 +6,8 @@ body {
   display: flex;
   flex-direction: row-reverse;
   margin: 40px;
-  width: 1200px;
+  width: 1280px;
+  height: 1399px;
 }
 
 .main-content{
@@ -17,15 +18,19 @@ body {
 
 .about-position{
   color: #000;
+  font-family: Montserrat;
   font-size: 14px;
+  font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-bottom: 20px;
 }
 
 .about-name{
   color: #000;
   font-size: 45px;
+  width: 342px;
+  height: 50px;
+  flex-shrink: 0;  
   font-weight: 700;
   line-height: normal;
   margin-bottom: 25px;
@@ -39,7 +44,7 @@ body {
   line-height: 24px;
   margin-bottom: 25px;
 }
-/* project */
+
 .title{
   color: #000;
   font-size: 27px;
@@ -47,12 +52,128 @@ body {
   font-weight: 700;
   line-height: normal;
 }
+/* sidebar */
+.photo{
+  margin: auto;
+  flex-shrink: 0;
+  width: 280px;
+}
+
 
 .sidebar{
   color: white;
   background: #1e2939;
   width: 370px;
   padding-top: 40px;
+  padding-left: 30px;
+  position: left;
 }
 
-.
+.sidebar-title{
+  color: #FFF;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: normal;
+}
+/* contact */
+.ECT{
+  color: #FFF;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px; 
+}
+
+.links{
+  opacity: 0.5;
+  color: #FFF;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration-line: underline;
+}
+
+
+.soft-skills-txt{
+  color: #FFF;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.sidebar-item{
+  color: #FB6D3A;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+
+/* project */
+.projects-bracket{
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px; 
+}
+
+.project-link{
+  color: #595959;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px; 
+}
+
+.projects{
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px; 
+}
+
+/* work experience*/
+.low-title{
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.organization{
+  color: #FB6D3A;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;  
+}
+
+.duration{
+  color: #A8A8A8;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.data{
+  color: #000;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.about-work{
+  color: #595959;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */ 
+}
+
+/* education */
+.about-education{
+  color: #000;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;  
+}
